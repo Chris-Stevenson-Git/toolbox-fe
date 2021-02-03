@@ -1,6 +1,8 @@
 import React from 'react'
 import {HashRouter as Router, Route, Link} from 'react-router-dom'
 
+import AdvancedForm from './AdvancedForm'
+
 const BASE_URL = 'http://localhost:3000'
 
 class Landing extends React.Component{
@@ -20,14 +22,30 @@ class Landing extends React.Component{
     genre_id: 0, //genres 0 is all
     page: 1, //page of results
     country_list: 'all', //list of countries included in search
-
-
+    advanced_open: false,
+    advanced_search_text: 'Advanced Search'
   }
 
+  //handle opening the form to perform an advanced search with more fields to type in
+  handleAdvancedSearch = (ev) => {
+    console.log('Opening Advanced Search Without submitting the form');
+    //toggle the showing of the advanced search form
+    this.setState({advanced_open: (this.state.advanced_open ? false : true)})
+    this.setState({advanced_search_text: (this.state.advanced_open ? 'Advanced Search' : 'Basic Search')})
+    ev.preventDefault();
+  }
+
+  updateState = (name, val) => {
+    this.setState({[name]: val})
+    console.log(name, val)
+  }
+
+  //handle typing in the form
   handleInput = (ev) => {
-    this.setState({search: ev.target.value})
+    this.setState({query: ev.target.value})
   }
 
+  //Send the API request to the backend
   handleSubmit = (ev) => {
     console.log('Button working');
     console.log(this.state.query);
@@ -36,7 +54,7 @@ class Landing extends React.Component{
       headers: {"Content-Type": "application/json; charset=utf-8"},
       method: 'POST',
       body: JSON.stringify({
-        query: this.state.query
+        query: this.state.query,
         high_nfr: this.state.high_nfr,
         low_nfr: this.state.low_nfr,
         high_imdb: this.state.high_imdb,
@@ -54,7 +72,7 @@ class Landing extends React.Component{
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
+      console.log(JSON.parse(data.result));
     })
     .catch(err => console.warn(err))
 
@@ -72,6 +90,10 @@ class Landing extends React.Component{
             type='text'
             placeholder='Search...'/>
           <button>Search</button>
+          <button onClick={this.handleAdvancedSearch}>{this.state.advanced_search_text}</button>
+          {
+            this.state.advanced_open && <AdvancedForm updateParentState={this.updateState}/>
+          }
         </form>
       </div>
     )//return
