@@ -23,7 +23,13 @@ class Landing extends React.Component{
     page: 1, //page of results
     country_list: 'all', //list of countries included in search
     advanced_open: false,
-    advanced_search_text: 'Advanced Search'
+    advanced_search_text: 'Advanced Search',
+    show_results: false, //show the cards of the search results
+    loading_results: true, //show a loading icon while results load
+    search_results: {
+      COUNT: 0,
+      ITEMS: []
+    }
   }
 
   //handle opening the form to perform an advanced search with more fields to type in
@@ -73,6 +79,7 @@ class Landing extends React.Component{
     .then(res => res.json())
     .then(data => {
       console.log(JSON.parse(data.result));
+      this.setState({search_results: JSON.parse(data.result)})
     })
     .catch(err => console.warn(err))
 
@@ -95,6 +102,19 @@ class Landing extends React.Component{
             this.state.advanced_open && <AdvancedForm updateParentState={this.updateState}/>
           }
         </form>
+        <hr/>
+        <h2>Results: {this.state.search_results.COUNT}</h2>
+        {
+          this.state.search_results.ITEMS.map(result => (
+            <div>
+              <h3>{result.title}</h3>
+              <h4>{result.released}</h4>
+              <h4>{result.type}</h4>
+              <h4>{result.rating}/10</h4>
+              <img src={result.image}/>
+            </div>
+          ))
+        }
       </div>
     )//return
   }//render
