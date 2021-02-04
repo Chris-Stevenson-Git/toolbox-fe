@@ -1,7 +1,13 @@
 import React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+
 import {HashRouter as Router, Route, Link} from 'react-router-dom'
+import {Card, CardDeck, Container, Row, Col} from 'react-bootstrap'
+
 
 import AdvancedForm from './AdvancedForm'
+import ResultCard from './ResultCard'
 
 const BASE_URL = 'http://localhost:3000'
 
@@ -28,7 +34,36 @@ class Landing extends React.Component{
     loading_results: true, //show a loading icon while results load
     search_results: {
       COUNT: 0,
-      ITEMS: []
+      ITEMS: [
+        {
+          title: 'Test Movie',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie2',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie3',
+          rating: '6.5',
+          released: '2021',
+          type: 'series',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie4',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
+        }
+      ]
     }
   }
 
@@ -104,17 +139,17 @@ class Landing extends React.Component{
         </form>
         <hr/>
         <h2>Results: {this.state.search_results.COUNT}</h2>
-        {
-          this.state.search_results.ITEMS.map(result => (
-            <div>
-              <h3>{result.title}</h3>
-              <h4>{result.released}</h4>
-              <h4>{result.type}</h4>
-              <h4>{result.rating}/10</h4>
-              <img src={result.image}/>
-            </div>
-          ))
-        }
+        <Container>
+          <Row>
+            {
+              this.state.search_results.ITEMS.map(result => (
+                <Col xs='3'>
+                  <ResultCard data={result}/>
+                </Col>
+              ))
+            }
+          </Row>
+        </Container>
       </div>
     )//return
   }//render
