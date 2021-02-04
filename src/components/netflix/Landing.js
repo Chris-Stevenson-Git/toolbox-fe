@@ -62,6 +62,34 @@ class Landing extends React.Component{
           released: '2021',
           type: 'movie',
           image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie2',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie3',
+          rating: '6.5',
+          released: '2021',
+          type: 'series',
+          image: 'https://www.fillmurray.com/200/300'
+        },
+        {
+          title: 'Test Movie4',
+          rating: '6.5',
+          released: '2021',
+          type: 'movie',
+          image: 'https://www.fillmurray.com/200/300'
         }
       ]
     }
@@ -69,16 +97,15 @@ class Landing extends React.Component{
 
   //handle opening the form to perform an advanced search with more fields to type in
   handleAdvancedSearch = (ev) => {
-    console.log('Opening Advanced Search Without submitting the form');
     //toggle the showing of the advanced search form
     this.setState({advanced_open: (this.state.advanced_open ? false : true)})
     this.setState({advanced_search_text: (this.state.advanced_open ? 'Advanced Search' : 'Basic Search')})
     ev.preventDefault();
   }
 
+  //passed down to the advanced form child component to update the parent state.
   updateState = (name, val) => {
     this.setState({[name]: val})
-    console.log(name, val)
   }
 
   //handle typing in the form

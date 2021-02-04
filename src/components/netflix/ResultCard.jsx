@@ -17,7 +17,7 @@ class ResultCard extends React.Component{
     let videoType = this.capitaliseFirstLetter(this.props.data.type);
 
     return(
-      <Card style={{width: '15rem', mb: '15px'}}>
+      <Card style={{width: '15rem', marginBottom: '10px'}}>
         <Card.Img src={this.props.data.image}/>
         <Card.Body>
           <Card.Title>
